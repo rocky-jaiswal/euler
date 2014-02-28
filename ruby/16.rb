@@ -1,0 +1,1 @@
+(2 ** 1000).to_s.split(//).map{|e| e.to_i}.inject(0){|s, e| s + e}
