@@ -64,7 +64,7 @@ class Path
   end
 end
 
-matrix = Matrix.new(20, 20)
+matrix = Matrix.new(5, 5)
 start_at = Cell.new(0, 0)
 paths = []
 done = false
@@ -75,6 +75,8 @@ paths << path
 
 while !done
   paths = matrix.advance(paths)
+  #puts "-------------->"
+  #puts paths.inspect
   #paths.each {|p| puts "#{p.cells}"}  
   done = paths.all?{|p| p.cells.last == matrix.destination}
 end
