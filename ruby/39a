@@ -1,0 +1,32 @@
+def find_coprime_pairs(n=32)
+  coprimes = []
+  (1..n).each do |m|
+    (1..n).each do |n|
+      break if m < n || m == n
+      coprimes << [m, n] if m.gcd(n) == 1
+    end
+  end
+  coprimes
+end
+
+def find_triplets(pairs)
+  arr = []
+  pairs.each do |pair|
+    arr << [pair.first ** 2 - pair.last ** 2, 2 * pair.first * pair.last, pair.first ** 2 + pair.last ** 2]
+  end
+  arr
+end
+
+all_pairs = find_coprime_pairs.uniq{|a| a.sort}
+
+all_triplets = find_triplets(all_pairs)
+
+# need to multiply the triplets (1, 2, 3 .. n) until their sum is < 1000
+
+collective = all_triplets.select{|a, b, c| a + b + c < 1001}.each_with_object({}) do |triplet, hash|
+  hash[triplet[0] + triplet[1] + triplet[2]] = 1 unless hash[triplet[0] + triplet[1] + triplet[2]]
+  hash[triplet[0] + triplet[1] + triplet[2]] = hash[triplet[0] + triplet[1] + triplet[2]] + 1 if hash[triplet[0] + triplet[1] + triplet[2]]
+end
+
+max = collective.values.max
+puts collective.select{|k, v| v == max}.inspect
