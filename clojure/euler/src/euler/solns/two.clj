@@ -4,7 +4,7 @@
   (loop [c n
          acc [1 2]]
     (if (or (= c 1) (= c 2))
-      (last acc)
+      acc
       (recur (- c 1) (conj acc (+ (nth acc (- (count acc) 1)) (nth acc (- (count acc) 2))))))))
 
 
