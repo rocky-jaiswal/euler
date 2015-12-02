@@ -1,25 +1,26 @@
 (ns euler.solns.ten)
 
-(defn init [num]
+(def numx 2000000)
+
+(defn init []
   (apply assoc {}
-         (interleave (range 2 (inc num))
-                     (take num (repeat true)))))
+         (interleave (range 2 (inc numx))
+                     (take numx (repeat true)))))
 
-(defn all-nums [num]
-  (atom (init num)))
+(def all-nums
+  (atom (init)))
 
-(defn switch [coll])
+(defn switcharoo [coll]
+  (let [new-m (apply assoc {} (interleave coll (take (count coll) (repeat false))))]
+    ;;(println coll)
+    (swap! all-nums (fn [m] (merge m new-m)))))
 
-(defn for-change [x num]
-  (remove (fn [e] (> e num)) (map (fn [e] (+ (* x x) (* e x))) (range 0 (inc num)))))
+(defn for-change [x]
+  ;;(println x)
+  (switcharoo (take-while (fn [e] (not (> e numx))) (map (fn [e] (+ (* x x) (* e x))) (range)))))
 
-
-(defn sieve [num]
-  (let [nums (all-nums num)
-        limit (.intValue (Double. (Math/ceil (Math/sqrt num))))]
-    (for [x (range 2 (inc limit))
-          :when (get @nums x)]
-      (for-change x num))))
-
-(defn solve [num]
-  (clojure.set/difference (set (keys @(all-nums num))) (set (sieve num))))
+(defn sieve []
+  (let [limit (.intValue (Double. (Math/ceil (Math/sqrt numx))))]
+    (doseq [x (range 2 (inc limit))
+            :when (get @all-nums x)]
+      (for-change x))))
