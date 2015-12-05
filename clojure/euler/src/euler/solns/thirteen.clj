@@ -101,5 +101,15 @@
           20849603980134001723930671666823555245252804609722
           53503534226472524250874054075591789781264330331690")
 
-(defn add-num []
-  (clojure.string/join (take 10 (clojure.string/split (str (reduce + (map bigint (map (fn [a] (clojure.string/join a)) (partition-all 50 (remove clojure.string/blank? (clojure.string/split numx #""))))))) #""))))
+(defn solve []
+  (clojure.string/join
+   (take 10
+         (clojure.string/split
+          (str
+           (reduce +
+                   (map bigint
+                        (map (fn [a] (clojure.string/join a))
+                             (partition-all 50
+                                            (remove clojure.string/blank?
+                                                    (clojure.string/split numx #"")))))))
+          #""))))
